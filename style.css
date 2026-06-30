@@ -40,7 +40,7 @@ html, body {
 
 #credits {
   position: fixed;
-  bottom: 8px;
+  top: 8px;
   left: 50%;
   transform: translateX(-50%);
   font-family: 'Racing Sans One', 'Impact', 'Arial Black', sans-serif;

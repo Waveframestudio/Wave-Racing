@@ -194,7 +194,10 @@ function positionForAttract() {
 positionForAttract();
 
 // ══ COUNTDOWN OVERLAY ══
-const countdownEl = document.createElement('div');
+let countdownEl = document.getElementById('countdown-overlay');
+if (countdownEl) countdownEl.remove();
+countdownEl = document.createElement('div');
+countdownEl.id = 'countdown-overlay';
 countdownEl.style.cssText = `
   position: fixed; top: 25%; left: 50%;
   transform: translate(-50%, -50%);
@@ -208,7 +211,9 @@ countdownEl.style.cssText = `
 document.body.appendChild(countdownEl);
 
 // ══ RESULTS OVERLAY ══
-const resultsEl = document.createElement('div');
+let resultsEl = document.getElementById('results-overlay');
+if (resultsEl) resultsEl.remove();
+resultsEl = document.createElement('div');
 resultsEl.id = 'results-overlay';
 resultsEl.style.cssText = `
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -221,7 +226,10 @@ resultsEl.style.cssText = `
 document.body.appendChild(resultsEl);
 
 // ══ LAP NOTIFICATION ══
-const lapNotifyEl = document.createElement('div');
+let lapNotifyEl = document.getElementById('lap-notify-overlay');
+if (lapNotifyEl) lapNotifyEl.remove();
+lapNotifyEl = document.createElement('div');
+lapNotifyEl.id = 'lap-notify-overlay';
 lapNotifyEl.style.cssText = `
   position: fixed; top: 35%; left: 50%;
   transform: translate(-50%, -50%);
@@ -236,13 +244,24 @@ document.body.appendChild(lapNotifyEl);
 let lapNotifyTimer = 0;
 
 // ══ ATTRACT MODE OVERLAY ══
-const attractEl = document.createElement('div');
+let attractEl = document.getElementById('attract-overlay');
+if (attractEl) attractEl.remove();
+attractEl = document.createElement('div');
+attractEl.id = 'attract-overlay';
 attractEl.style.cssText = `
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding-top: 15vh;
   z-index: 250; pointer-events: none;
   font-family: 'Orbitron', sans-serif;
 `;
+
+// ── Wave Icon Element ──
+const waveIcon = document.createElement('img');
+waveIcon.className = 'wave-icon';
+waveIcon.src = '/WaveIcon.png';
+waveIcon.alt = 'WaveIcon';
+
 const attractTitle = document.createElement('div');
 attractTitle.style.cssText = `
   font-weight: 900; font-size: clamp(32px, 10vw, 72px); color: #ffffff;
@@ -259,15 +278,33 @@ attractSub.style.cssText = `
   animation: attractPulse 1.2s ease-in-out infinite;
 `;
 attractSub.textContent = 'PRESS SPACE TO RACE';
-// Add pulse animation
-const attractStyle = document.createElement('style');
+
+// Add pulse and credit animations/styles
+let attractStyle = document.getElementById('attract-style');
+if (attractStyle) attractStyle.remove();
+attractStyle = document.createElement('style');
+attractStyle.id = 'attract-style';
 attractStyle.textContent = `
   @keyframes attractPulse {
     0%, 100% { opacity: 0.5; transform: scale(1); }
     50% { opacity: 1; transform: scale(1.05); }
   }
+
+  .wave-icon {
+    width: clamp(110px, 18vw, 160px);
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px rgba(255, 60, 30, 0.7));
+    animation: floatIcon 3.5s ease-in-out infinite;
+  }
+
+  @keyframes floatIcon {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+  }
 `;
 document.head.appendChild(attractStyle);
+attractEl.appendChild(waveIcon);
 attractEl.appendChild(attractTitle);
 attractEl.appendChild(attractSub);
 document.body.appendChild(attractEl);
@@ -316,7 +353,8 @@ function showResults() {
     html += '</div>';
   }
 
-  html += '<div style="margin-top:36px; font-size:15px; color:#666; letter-spacing:3px;">PRESS R TO RESTART</div>';
+  html += '<div style="margin-top:36px; font-size:15px; color:#666; letter-spacing:3px; margin-bottom: 12px;">PRESS R TO RESTART</div>';
+  html += '<div style="font-size:10px; color:#444; letter-spacing:1px; font-family:\'Montserrat\', sans-serif;">POWERED BY WAVEFRAME STUDIO</div>';
   html += '</div>';
 
   resultsEl.innerHTML = html;
@@ -979,3 +1017,10 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+// ══ HMR RELOAD ══
+if (import.meta.hot) {
+  import.meta.hot.accept(() => {
+    window.location.reload();
+  });
+}

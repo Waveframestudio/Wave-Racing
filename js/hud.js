@@ -185,6 +185,11 @@ export function createHUD() {
     ctx.font = '700 10px Orbitron, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('km/h', cx, cy + 50);
+
+    // Subtle WaveFrame Studio watermark
+    ctx.fillStyle = 'rgba(255,255,255,0.12)';
+    ctx.font = '900 8px Orbitron, sans-serif';
+    ctx.fillText('WAVEFRAME STUDIO', cx, cy - 30);
   }
 
   // ── Position & lap overlay (top corners) ──

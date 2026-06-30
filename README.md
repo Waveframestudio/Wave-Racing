@@ -22,4 +22,7 @@ Juego de carreras arcade en 3D construido con `Three.js`, ahora preparado para e
 
 ## Créditos
 
-Proyecto acreditado a [WaveFrame Studio](https://waveframe.com.ar/).
+Desarrollado y diseñado por el equipo de [WaveFrame Studio](https://waveframe.com.ar/).
+- **Sitio Web Oficial:** [waveframe.com.ar](https://waveframe.com.ar/)
+- **Proyecto:** Wave Racing 3D Arcade Game
+- **Licencia:** © 2026 WaveFrame Studio. Todos los derechos reservados.
