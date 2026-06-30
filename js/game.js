@@ -328,11 +328,11 @@ waveIcon.alt = 'WaveIcon';
 const attractTitle = document.createElement('div');
 attractTitle.style.cssText = `
   font-weight: 900; font-size: clamp(32px, 10vw, 72px); color: #ffffff;
-  text-shadow: 0 0 60px rgba(255,60,30,0.8), 0 4px 20px rgba(0,0,0,0.9);
+  filter: drop-shadow(0 0 15px rgba(0,255,213,0.4)) drop-shadow(0 4px 10px rgba(0,0,0,0.9));
   margin-bottom: 30px; letter-spacing: clamp(2px, 0.8vw, 6px);
   text-align: center; word-break: break-word; max-width: 90vw;
 `;
-attractTitle.textContent = 'WAVE RACING';
+attractTitle.innerHTML = '<span style="background: linear-gradient(135deg, #00ffd5 0%, #00a2ff 45%, #a200ff 80%, #ff00c8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">WAVE</span> RACING';
 const attractSub = document.createElement('div');
 attractSub.style.cssText = `
   font-weight: 700; font-size: clamp(14px, 3.5vw, 24px); color: rgba(255,255,255,0.9);
@@ -340,7 +340,7 @@ attractSub.style.cssText = `
   text-align: center; max-width: 90vw;
   animation: attractPulse 1.2s ease-in-out infinite;
 `;
-attractSub.textContent = 'PRESS SPACE TO RACE';
+attractSub.textContent = 'PRESIONA ESPACIO PARA CORRER';
 
 // Add pulse and credit animations/styles
 let attractStyle = document.getElementById('attract-style');
@@ -388,36 +388,42 @@ function showResults() {
     return a.time - b.time;
   });
 
-  const posLabels = ['1ST', '2ND', '3RD', '4TH', '5TH'];
+  const posLabels = ['1ER', '2DO', '3ER', '4TO', '5TO'];
   const posColors = ['#ffd700', '#e0e0e0', '#cd7f32', '#cccccc', '#aaaaaa'];
 
   let html = '<div style="text-align:center; color:white;">';
   html += '<div style="font-size:52px; margin-bottom:8px; color:#ffd700;">🏁</div>';
 
-  const playerResult = raceResults.find(r => r.name === 'YOU');
+  const playerResult = raceResults.find(r => r.name === 'VOS');
   const playerPos = raceResults.indexOf(playerResult) + 1;
 
   if (playerPos === 1) {
-    html += '<div style="font-size:42px; font-weight:900; color:#ffd700; margin-bottom:20px;">YOU WIN!</div>';
+    html += '<div style="font-size:42px; font-weight:900; color:#ffd700; margin-bottom:20px;">¡GANASTE!</div>';
   } else {
-    html += `<div style="font-size:36px; font-weight:900; color:${posColors[playerPos-1]}; margin-bottom:20px;">${posLabels[playerPos-1]} PLACE</div>`;
+    html += `<div style="font-size:36px; font-weight:900; color:${posColors[playerPos-1]}; margin-bottom:20px;">${posLabels[playerPos-1]} PUESTO</div>`;
   }
 
   for (let i = 0; i < raceResults.length; i++) {
     const r = raceResults[i];
-    const isPlayer = r.name === 'YOU';
+    const isPlayer = r.name === 'VOS';
     const bg = isPlayer ? 'background:rgba(255,34,0,0.3); border:2px solid #ff2200;' : 'background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);';
-    const carColors = { 'YOU': '#ff2200', 'BLUE': '#3366ff', 'GOLD': '#ffcc00', 'JADE': '#00cc66', 'BLAZE': '#ff6600' };
+    const carColors = { 
+      'VOS': '#ff2200', 
+      'F. Colapinto': '#3366ff', 
+      'A. Senna': '#ffcc00', 
+      'L. Hamilton': '#00cc66', 
+      'M. Verstappen': '#ff6600' 
+    };
     html += `<div style="display:flex; align-items:center; justify-content:center; gap:24px; padding:10px 36px; margin:6px auto; max-width:460px; ${bg} border-radius:8px;">`;
     html += `<span style="font-size:28px; font-weight:900; color:${posColors[i]}; min-width:55px;">${posLabels[i]}</span>`;
     html += `<span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${carColors[r.name] || '#fff'};"></span>`;
-    html += `<span style="font-size:22px; font-weight:700; min-width:80px; ${isPlayer ? 'color:#ff4422;' : ''}">${r.name}</span>`;
+    html += `<span style="font-size:22px; font-weight:700; min-width:140px; text-align:left; ${isPlayer ? 'color:#ff4422;' : ''}">${r.name}</span>`;
     html += `<span style="font-size:18px; color:#aaa; min-width:90px;">${r.dnf ? 'DNF' : formatRaceTime(r.time)}</span>`;
     html += '</div>';
   }
 
-  html += '<div style="margin-top:36px; font-size:15px; color:#666; letter-spacing:3px; margin-bottom: 12px;">PRESS R TO RESTART</div>';
-  html += '<div style="font-size:10px; color:#444; letter-spacing:1px; font-family:\'Montserrat\', sans-serif;">POWERED BY WAVEFRAME STUDIO</div>';
+  html += '<div style="margin-top:36px; font-size:15px; color:#666; letter-spacing:3px; margin-bottom: 12px;">PRESIONA R PARA REINICIAR</div>';
+  html += '<div style="font-size:10px; color:#444; letter-spacing:1px; font-family:\'Montserrat\', sans-serif;">DESARROLLADO POR WAVEFRAME STUDIO</div>';
   html += '</div>';
 
   resultsEl.innerHTML = html;
@@ -787,7 +793,7 @@ function update() {
       countdownEl.style.color = '#00ff66';
       countdownEl.style.opacity = '1';
     } else if (countdownElapsed < 3.8) {
-      countdownEl.textContent = 'GO!';
+      countdownEl.textContent = '¡YA!';
       countdownEl.style.color = '#ffffff';
       countdownEl.style.opacity = '1';
     } else {
@@ -836,7 +842,7 @@ function update() {
     if (!resultsShown) {
       // DNF any car that hasn't finished
       if (!playerFinished) {
-        raceResults.push({ name: 'YOU', time: 0, dnf: true });
+        raceResults.push({ name: 'VOS', time: 0, dnf: true });
       }
       for (const ai of aiCars) {
         if (!ai.finished) {
@@ -902,7 +908,7 @@ function update() {
 
       // Show lap notification
       if (p.lap < TOTAL_LAPS) {
-        lapNotifyEl.textContent = `LAP ${p.lap + 1} / ${TOTAL_LAPS}`;
+        lapNotifyEl.textContent = `VUELTA ${p.lap + 1} / ${TOTAL_LAPS}`;
         lapNotifyEl.style.opacity = '1';
         lapNotifyTimer = 2;
       }
@@ -911,8 +917,8 @@ function update() {
       if (p.lap >= TOTAL_LAPS) {
         playerFinished = true;
         playerFinishTime = elapsed - raceStartTime;
-        raceResults.push({ name: 'YOU', time: playerFinishTime, dnf: false });
-        lapNotifyEl.textContent = '🏁 FINISHED!';
+        raceResults.push({ name: 'VOS', time: playerFinishTime, dnf: false });
+        lapNotifyEl.textContent = '🏁 ¡TERMINASTE!';
         lapNotifyEl.style.opacity = '1';
         lapNotifyTimer = 3;
       }

@@ -149,7 +149,7 @@ function createCarMesh(color) {
  * Create AI cars with full physics state
  */
 export function createAICars(scene) {
-  const names = ['BLUE', 'GOLD', 'JADE', 'BLAZE'];
+  const names = ['F. Colapinto', 'A. Senna', 'L. Hamilton', 'M. Verstappen'];
   const colors = [0x3366ff, 0xffcc00, 0x00cc66, 0xff6600];
   return PERSONALITIES.map((pers, i) => {
     const color = colors[i];

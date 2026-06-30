@@ -228,20 +228,20 @@ export function createHUD() {
     octx.fillText(posText, 22, 10);
     octx.restore();
 
-    // "POSITION" label
+    // "POSICIÓN" label
     octx.save();
     octx.font = '700 11px Orbitron, sans-serif';
     octx.textAlign = 'left';
     octx.strokeStyle = 'rgba(0,0,0,0.6)';
     octx.lineWidth = 3;
     octx.lineJoin = 'round';
-    octx.strokeText('POSITION', 24, 68);
+    octx.strokeText('POSICIÓN', 24, 68);
     octx.fillStyle = 'rgba(255,255,255,0.5)';
-    octx.fillText('POSITION', 24, 68);
+    octx.fillText('POSICIÓN', 24, 68);
     octx.restore();
 
     // Lap — top right
-    const lapText = `LAP ${lap}/${totalLaps}`;
+    const lapText = `VUELTA ${lap}/${totalLaps}`;
     octx.save();
     octx.font = '900 28px Orbitron, sans-serif';
     octx.textAlign = 'right';
@@ -264,9 +264,9 @@ export function createHUD() {
         octx.strokeStyle = 'rgba(0,0,0,0.8)';
         octx.lineWidth = 5;
         octx.lineJoin = 'round';
-        octx.strokeText('OFF TRACK', overlay.width / 2, 26);
+        octx.strokeText('FUERA DE PISTA', overlay.width / 2, 26);
         octx.fillStyle = '#ff3333';
-        octx.fillText('OFF TRACK', overlay.width / 2, 26);
+        octx.fillText('FUERA DE PISTA', overlay.width / 2, 26);
         octx.restore();
       }
     }
